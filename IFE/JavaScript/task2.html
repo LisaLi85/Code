@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8">
+	<title>IFE JavaScript Task 01</title>
+  </head>
+  <style type="text/css">
+	body{
+		margin:0;
+		padding:0;
+		width: 100%;
+		height: 100%;
+	}
+	#wrap{
+		width: 300px;
+		height: 300px;
+		position: absolute;
+		top:50%;
+		left: 50%;
+		margin-top: -150px;
+		margin-left: -150px;
+		border: 1px solid red;
+	}
+	#wrap h3{
+		text-align: center;
+	}
+  </style>
+<body>
+  <div id="wrap">
+	  <h3>污染城市列表</h3>
+	  <ul id="aqi-list">
+	<!--   
+		<li>第一名：福州（样例），10</li>
+		  <li>第二名：福州（样例），10</li> -->
+	  </ul>
+  </div>
+<script type="text/javascript">
+
+var aqiData = [
+  ["北京", 90],
+  ["上海", 50],
+  ["福州", 10],
+  ["广州", 50],
+  ["成都", 90],
+  ["西安", 100]
+];
+
+	// var ch123 = ['零','一','二','三','四','五','六','七','八','九','十'];
+
+	// function convNumberToChinese(num){
+		
+	// 	var strCh="";
+
+	// 	num = parseInt(num)
+	// 	if(1000>num){
+	// 		if(num<10)
+	// 		{
+	// 			strCh = ch123[num];
+	// 		}	
+	// 		else if(num<100)
+	// 		{
+	// 			strCh = ch123[parseInt(num/10)] + '十' + ch123[parseInt(num%10)]
+	// 		}	
+	// 		else 
+	// 		{
+	// 			strCh = ch123[parseInt(num/100)] + '百' + ch123[parseInt(num/10)] + '十' + ch123[parseInt(num%10)]	
+	// 		}	
+	// 	}
+	// 	else{
+	// 		strCh = "个板马,不要传异常的值!"
+	// 	}
+
+	// 	return strCh;
+
+	// }
+
+	// todo http://www.cnblogs.com/breakdown/archive/2012/09/20/2689306.html js将数字转换成中文
+
+	var ch123 = ['零','一','二','三','四','五','六','七','八','九'];
+	var chzzz = ['','十','百','千','万']
+	function convNumberToChinese(num){
+		
+		var strCh="";
+		var strTemp;
+		var i = 0;
+		num = parseInt(num)
+
+		if(0==num)
+		{
+			return ch123[num];
+		}
+		else if(10==num)
+		{
+			return "一十";	
+		}
+		else if(100==num)
+		{
+			return "一百";	
+		}
+		else if(1000==num)
+		{
+			return "一千";		
+		}
+		else if(10000==num)
+		{
+			return "一万";	
+		}
+
+		if(100000>num){
+
+			while(num>0)	
+			{
+				strTemp = num%10;				
+				strCh = ch123[strTemp] + chzzz[i] + strCh ;
+				i++;
+				num = parseInt(num/10);
+			}
+		}
+		else{
+			strCh = "个板马,不要传异常的值!"
+		}
+
+		return strCh;
+
+	}	
+
+(function () {
+
+  /*
+  在注释下方编写代码
+  遍历读取aqiData中各个城市的数据
+  将空气质量指数大于60的城市显示到aqi-list的列表中
+  */
+
+
+  // 用sort方法进行二维数组的排序
+  // http://blog.csdn.net/flyingpig2016/article/details/52901977
+
+	function ascend(x,y){	// 升序
+	    return x[3] - y[3];  
+	}
+
+	function descend(x,y){
+	    return y[1] - x[1];  // 降序
+	}
+	 
+	var oUl = document.getElementById('aqi-list');
+	var str = "";
+
+	aqiData.sort(descend);
+	console.log(aqiData);
+
+
+
+
+	for(var i = 0;i < aqiData.length;i++){	
+	  
+	  
+		if(aqiData[i][1]<60){
+		continue;
+		}
+		str+='<li>'
+		str+= '第' + convNumberToChinese(i+1) + '名:'
+		str+= aqiData[i][0];
+		str+= ","
+		str+= aqiData[i][1];
+		str+='</li>'
+	  
+
+	}
+
+
+	oUl.innerHTML=str; 
+   
+
+})();
+
+
+</script>
+</body>
+</html>
