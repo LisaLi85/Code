@@ -1,0 +1,81 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+    <style type="text/css">
+      ul,li{
+        list-style: none;
+      }
+      .ct{
+        overflow: hidden;
+      }
+      ul li{
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid red;
+        background: red;
+        color:#fff;
+        float: left;
+        margin-left: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+<body>
+  <ul class="ct">
+     
+  </ul>
+
+  <input id="add-content" type="text">
+
+  <button id="btn-add-left">左侧入</button>
+  <button id="btn-add-right">右侧入</button>
+  <button id="btn-remove-left">左侧出</button>
+  <button id="btn-remove-right">右侧出</button>
+
+<script type="text/javascript">
+  var ct = document.querySelector(".ct");
+  var oLis = ct.getElementsByTagName('li');
+  var btn1 = document.getElementById('btn-add-left');
+  var btn2 = document.getElementById('btn-add-right');
+  var btn3 = document.getElementById('btn-remove-left');
+  var btn4 = document.getElementById('btn-remove-right');
+  var input = document.getElementById('add-content');
+  
+  // 判断输入框内的字符是否为数字
+  function isNum() {
+    input.value = input.value.replace(/[^\d]/ig,'');
+  }
+
+  btn1.onclick = function(){     
+     var newLi = document.createElement("li");
+     newLi.innerHTML =input.value;//input.value获取input的值
+     ct.insertBefore(newLi,ct.firstChild);
+  }
+  btn2.onclick = function(){
+     var newLi = document.createElement("li");
+     newLi.innerHTML =input.value;
+     ct.appendChild(newLi);
+  }
+  btn3.onclick = function(){
+     ct.removeChild(ct.firstChild);
+     alert(ct.firstChild.innerHTML);
+  }
+  btn4.onclick = function(){
+     ct.removeChild(ct.lastChild);
+     alert(ct.lastChild.innerHTML);
+  }
+
+  ct.addEventListener('click',function(e){
+     if(e.target && e.target.nodeName=='LI'){
+       ct.removeChild(e.target);
+     }
+  })
+
+
+
+</script>
+</body>
+</html>
