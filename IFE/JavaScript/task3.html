@@ -1,0 +1,165 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+  </head>
+<body>
+
+  <ul id="source">
+    <li>北京空气质量：<b>90</b></li>
+    <li>上海空气质量：<b>70</b></li>
+    <li>天津空气质量：<b>80</b></li>
+    <li>石家庄空气质量：<b>50</b></li>
+    <li>乌鲁木齐空气质量：<b>40</b></li>
+    <li>福州空气质量：<b>32</b></li>
+    <li>成都空气质量：<b>90</b></li>
+  </ul>
+
+  <ul id="resort">
+    <!-- 
+    <li>第一名：北京空气质量：<b>90</b></li>
+    <li>第二名：北京空气质量：<b>90</b></li>
+    <li>第三名：北京空气质量：<b>90</b></li>
+     -->
+
+  </ul>
+
+  <button id="sort-btn">排序</button>
+
+<script type="text/javascript">
+
+/**
+ * getData方法
+ * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
+ * 返回一个数组，格式见函数中示例
+ */
+function getData() {
+  
+  var oUl = document.getElementById('source');
+  var oLis = oUl.getElementsByTagName('li');
+  var cityName;
+  var cityData;  
+  // var data = new Array();
+  var data=[];
+
+  for (var i=0; i<oLis.length;i++) { 
+      var arrOneCity =[];       
+      cityName = (oLis[i].innerText).substring(0,oLis[i].innerText.indexOf("空气质量"));
+      cityData = parseInt(oLis[i].getElementsByTagName('b')[0].innerText);      
+      arrOneCity.push(cityName,cityData);
+      data.push(arrOneCity)
+  } 
+
+  return data;
+}
+
+  function ascend(x,y){ // 升序
+      return x[1] - y[1];   //按照数组的第2个值升序排列
+  }
+
+  function descend(x,y){
+      return y[1] - x[1];   //按照数组的第2个值降序排列
+  }  
+
+/**
+ * sortAqiData
+ * 按空气质量对data进行从小到大的排序
+ * 返回一个排序后的数组
+ */
+function sortAqiData(data) {
+
+    data.sort(ascend);
+    return data;
+}
+
+  var ch123 = ['零','一','二','三','四','五','六','七','八','九'];
+  var chzzz = ['','十','百','千','万']
+  function convNumberToChinese(num){
+    
+    var strCh="";
+    var strTemp;
+    var i = 0;
+    num = parseInt(num)
+
+    if(0==num)
+    {
+      return ch123[num];
+    }
+    else if(10==num)
+    {
+      return "一十";  
+    }
+    else if(100==num)
+    {
+      return "一百";  
+    }
+    else if(1000==num)
+    {
+      return "一千";    
+    }
+    else if(10000==num)
+    {
+      return "一万";  
+    }
+
+    if(100000>num){
+
+      while(num>0)  
+      {
+        strTemp = num%10;       
+        strCh = ch123[strTemp] + chzzz[i] + strCh ;
+        i++;
+        num = parseInt(num/10);
+      }
+    }
+    else{
+      strCh = "个板马,不要传异常的值!"
+    }
+
+    return strCh;
+
+  } 
+
+/**
+ * render
+ * 将排好序的城市及空气质量指数，输出显示到id位resort的列表中
+ * 格式见ul中的注释的部分
+ */
+function render(data) {
+  var oUl = document.getElementById('resort')
+  var str="";
+  for(var i = 0;i < data.length;i++){  
+    str+='<li>'
+    str+= '第' + convNumberToChinese(i+1) + '名:  '
+    str+= data[i][0]+"空气质量";
+    str+= ":  "
+    str+= data[i][1];
+    str+='</li>'    
+  }
+  oUl.innerHTML=str; 
+}
+function hideOneNode(strNode){//当事件点击的时候，隐藏某节点
+  var oUl = document.getElementById(strNode);
+  oUl.style = 'display:none';//hide()是jQuery的用法，这里还是用的原生JS，css里面怎样写，JS中就怎样写
+}
+function btnHandle() {
+  var aqiData = getData();
+  aqiData = sortAqiData(aqiData);
+  render(aqiData);
+  hideOneNode('source');
+}
+
+function init() {
+  var btn = document.getElementById('sort-btn');
+  btn.addEventListener('click',btnHandle);//注意此处的写法，直接调用btnHandle函数
+  // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
+
+  
+}
+
+init();
+
+</script>
+</body>
+</html>
